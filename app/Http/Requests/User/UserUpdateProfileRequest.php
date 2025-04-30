@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\User;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UserRegisterRequest extends FormRequest
+class UserUpdateProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,14 @@ class UserRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'display_name' => ['required' , 'regex:/^\S+$/'],
-            'first_name' => ['required'] ,
-            'last_name' => ['required'],
-            'gmail' => ['required' , Rule::unique('users' , 'gmail')],
-            'password' => ['required' , 'min:6', 'regex:/^\S+$/'],
-            'phone_number'=> ['required' , 'numeric'],
-            'age' => ['required','numeric' , 'gt:17'],
+            'display_name'=> ['sometimes' , 'regex:/^\S+$/'],
+            'first_name' => ['sometimes'],
+            'last_name' => ['sometimes'],
+            'gmail' => ['sometimes' , Rule::unique('users' , 'gmail')],
+            'phone_number'=> ['sometimes' , 'numeric'],
+            'age' => ['sometimes','numeric', 'gt:17'],
             'bio' => ['nullable']
+
         ];
     }
 }

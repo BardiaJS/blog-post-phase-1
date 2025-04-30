@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\User\UserUpdatePasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,19 +11,22 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\User\UserResource;
 use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Requests\User\UserRegisterRequest;
+use App\Http\Requests\User\UserUpdateProfileRequest;
 
 class UserController extends Controller
 {
     // Register the user
     public function register(UserRegisterRequest $userRegisterRequest){
         $validated = $userRegisterRequest->validated();
-        if(($this->check_phone_number($validated['phone_number'])) && ($this->check_age($validated['age']))){
+        if(($this->check_phone_number($validated['phone_number']))){
             $validated['password'] = Hash::make($validated['password']);
             $user = User::create($validated);
             return response()->json([
                 'message' => 'User Created Successfully!',
                 'user'=> new UserResource($user)
             ]);
+        }else{
+            abort(403 , "Phone number isn't valid!");
         }
     }
 
@@ -36,8 +40,41 @@ class UserController extends Controller
                 'access_token' => $token,
                 'token_type' => 'Bearer',
             ]);
+        }else{
+            abort(402 , "invalid data input!");
         }
 
+    }
+
+    // Change the user profile
+    public function update_profile(UserUpdateProfileRequest $userUpdateProfileRequest , User $user){
+        $validated = $userUpdateProfileRequest->validated();
+        if(request()->has('phone_number')){
+            if(($this->check_phone_number($validated['phone_number']))){
+                $user->update($validated);
+                return response()->json([
+                    'message' => 'updated successfully' ,
+                    'user' => new UserResource($user)
+                ]);
+            }else{
+                abort(403 , "Phone number isn't valid!");
+            }
+        }else{
+            $user->update($validated);
+            return response()->json([
+                'message' => 'updated successfully' ,
+                'user' => new UserResource($user)
+            ]);
+        }
+    }
+
+    public function update_password(UserUpdatePasswordRequest $userUpdatePasswordRequest , User $user){
+        $validated = $userUpdatePasswordRequest->validated();
+        $user->update($validated);
+        return response()->json([
+            'message' => 'Updated Password Successfully' ,
+            'user' => new UserResource($user)
+        ]);
     }
     function check_phone_number($phoneNumber) {
         // Regular expression for Iranian mobile numbers
@@ -45,13 +82,5 @@ class UserController extends Controller
 
         // Check if the phone number matches the pattern
         return preg_match($pattern, $phoneNumber) === 1;
-    }
-
-    function check_age($age){
-        if($age >= 18){
-            return true;
-        }else{
-            return false;
-        }
     }
 }
