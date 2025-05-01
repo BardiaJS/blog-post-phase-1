@@ -6,3 +6,4 @@ use Illuminate\Support\Facades\Route;
 
 
 require base_path(path: 'routes/User/UserRoute.php');
+require base_path(path: 'routes/Post/PostRoute.php');

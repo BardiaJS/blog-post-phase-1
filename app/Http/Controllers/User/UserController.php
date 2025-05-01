@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Requests\User\UserUpdatePasswordRequest;
+use App\Http\Resources\Post\PostCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -68,12 +69,24 @@ class UserController extends Controller
         }
     }
 
+    public function profile_user(User $user){
+        $posts = $user->posts;
+        $counts_of_posts = $user->posts()->count();
+        return response()->json([
+            'user' => $user ,
+            'total_posts' => $counts_of_posts,
+            'posts' => new PostCollection($posts)
+        ]);
+    }
+
     public function logout(Request $request){
             $request->user()->currentAccessToken()->delete();
         return response()->json([
             'message' => 'successfully logged out!'
         ]);
     }
+
+
 
     public function update_password(UserUpdatePasswordRequest $userUpdatePasswordRequest , User $user){
         $validated = $userUpdatePasswordRequest->validated();
@@ -90,5 +103,6 @@ class UserController extends Controller
         // Check if the phone number matches the pattern
         return preg_match($pattern, $phoneNumber) === 1;
     }
+
 
 }
