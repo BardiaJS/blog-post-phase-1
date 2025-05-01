@@ -68,6 +68,13 @@ class UserController extends Controller
         }
     }
 
+    public function logout(Request $request){
+            $request->user()->currentAccessToken()->delete();
+        return response()->json([
+            'message' => 'successfully logged out!'
+        ]);
+    }
+
     public function update_password(UserUpdatePasswordRequest $userUpdatePasswordRequest , User $user){
         $validated = $userUpdatePasswordRequest->validated();
         $user->update($validated);
@@ -83,4 +90,5 @@ class UserController extends Controller
         // Check if the phone number matches the pattern
         return preg_match($pattern, $phoneNumber) === 1;
     }
+
 }
