@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Follow;
 
+use App\Http\Resources\User\UserCollection;
 use App\Models\User;
 use App\Models\Follow;
 use Illuminate\Http\Request;
@@ -20,9 +21,21 @@ class FollowController extends Controller
             'data' => new FollowResource($follow)
         ]);
     }
-    public function unfollow_user(User $user)
-{
-    Auth::user()->follows()->detach($user->id);
-    return response()->json(['message' => 'Unfollowed successfully']);
-}
+    public function unfollow_user(User $user){
+        Auth::user()->follows()->detach($user->id);
+        return response()->json(['message' => 'Unfollowed successfully']);
+    }
+
+    public function get_followers_list(){
+        $followers_list = Auth::user()->followers;
+        return response()->json([
+            'Follwers List' => new UserCollection($followers_list)
+        ]);
+    }
+    public function get_following_list(){
+        $following_list = Auth::user()->follows;
+        return response()->json([
+            'Following List' => new UserCollection($following_list)
+        ]);
+    }
 }
