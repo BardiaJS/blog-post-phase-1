@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Requests\User\UserUpdatePasswordRequest;
+use App\Http\Resources\Follow\FollowCollection;
 use App\Http\Resources\Post\PostCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use App\Http\Resources\User\UserResource;
 use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Requests\User\UserRegisterRequest;
 use App\Http\Requests\User\UserUpdateProfileRequest;
+use App\Http\Resources\Comment\CommentCollection;
 
 class UserController extends Controller
 {
@@ -72,10 +74,22 @@ class UserController extends Controller
     public function profile_user(User $user){
         $posts = $user->posts;
         $counts_of_posts = $user->posts()->count();
+        $counts_of_followers = $user->followers()->count();
+        $followers = $user->followers;
+        $counts_of_following = $user->follows()->count();
+        $following = $user->follows;
+        $counts_of_comments = $user->comments()->count();
+        $comments = $user->commets;
         return response()->json([
             'user' => $user ,
             'total_posts' => $counts_of_posts,
-            'posts' => new PostCollection($posts)
+            'posts' => new PostCollection($posts),
+            'total_followers' => $counts_of_followers,
+            'followers' => new FollowCollection($followers),
+            'total_following' => $counts_of_following,
+            'followin' =>  new FollowCollection($following),
+            'total_comments' => $counts_of_comments,
+            'comments' => new CommentCollection($comments)
         ]);
     }
 
