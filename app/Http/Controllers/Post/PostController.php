@@ -50,7 +50,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function comments_of_post(Post $post){
+    public function get_comments_of_post(Post $post){
         $comments = $post->comments;
         return response()->json([
             'post'=>$post ,
