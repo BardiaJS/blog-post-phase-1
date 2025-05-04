@@ -49,5 +49,13 @@ class PostController extends Controller
             'message' => 'deleted successfully!'
         ]);
     }
+
+    public function comments_of_post(Post $post){
+        $comments = $post->comments;
+        return response()->json([
+            'post'=>$post ,
+            'comments' => $comment
+        ]);
+    }
 }
 
