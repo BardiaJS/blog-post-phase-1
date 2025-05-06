@@ -40,7 +40,11 @@ class PostController extends Controller
     }
 
     public function get_single_post(Post $post){
-        return new PostResource($post);
+        $comments_of_post = $post->comments;
+        return response()->json([
+            'post' => new PostResource($post) ,
+            'comments' => $comments_of_post 
+        ]);
     }
 
     public function delete_post(Post $post){
@@ -50,12 +54,5 @@ class PostController extends Controller
         ]);
     }
 
-    public function get_comments_of_post(Post $post){
-        $comments = $post->comments;
-        return response()->json([
-            'post'=>$post ,
-            'comments' => $comment
-        ]);
-    }
 }
 
