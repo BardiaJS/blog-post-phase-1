@@ -12,29 +12,46 @@ use App\Http\Requests\Comment\CommentUpdateRequest;
 
 class CommentController extends Controller
 {
+
+    // store a comment
     public function store_comment(CommentStoreRequest $commentStoreRequest , Post $post){
         $validated = $commentStoreRequest->validated();
         $validated['post_id'] = $post->id;
         $comment = Comment::create($validated);
+
         return response()->json([
             'message' => 'commented successfully!',
             'comment' => new CommentResource($comment)
         ]);
     }
 
+    // edit a comment
     public function edit_comment(CommentUpdateRequest $commentUpdateRequest, Comment $comment){
         $validated = $commentUpdateRequest->validated();
         $comment->update($validated);
+
         return response()->json([
             'message' => 'updated successfully!',
             'comment' => new CommentResource($comment)
         ]);
     }
 
+    // delete a comment
     public function delete_comment(Comment $comment){
         $comment->delete();
+
         return response()->json([
             'message' => 'deleted comment successfully'
+        ]);
+    }
+
+    // delete comments of the post
+    public function get_comments_of_the_post(Post $post){
+        $comments = $post->comments()->paginate(10);
+
+        return response()->json([
+            'post' => $post , 
+            'comments' => $comments
         ]);
     }
 }

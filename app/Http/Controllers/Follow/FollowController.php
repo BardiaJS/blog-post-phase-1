@@ -12,28 +12,38 @@ use App\Http\Resources\Follow\FollowResource;
 
 class FollowController extends Controller
 {
+    // follow the user
     public function follow_user(User $user){
         $follow = Follow::create([
             'user_followed_id' => $user->id
         ]);
+
         return response()->json([
             'message' => 'successfully followed!' ,
             'data' => new FollowResource($follow)
         ]);
     }
+
+    // unfollow the user
     public function unfollow_user(User $user){
         Auth::user()->follows()->detach($user->id);
+
         return response()->json(['message' => 'Unfollowed successfully']);
     }
 
-    public function get_followers_list(){
-        $followers_list = Auth::user()->followers;
+    // get follower list of the user
+    public function get_followers_list(User $user){
+        $followers_list = $user->followers()->paginate(10);
+        
         return response()->json([
             'Follwers List' => new UserCollection($followers_list)
         ]);
     }
-    public function get_following_list(){
-        $following_list = Auth::user()->follows;
+
+    // get following list of the user
+    public function get_following_list(User $user){
+        $following_list = $user->follows()->paginate(10);
+
         return response()->json([
             'Following List' => new UserCollection($following_list)
         ]);

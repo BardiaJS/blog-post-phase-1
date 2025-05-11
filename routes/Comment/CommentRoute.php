@@ -10,3 +10,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('/store-comment/post/{post}' , [CommentController::class , 'store_comment'])->middleware('auth:sanctum');
 Route::put('/edit-comment/{comment}' , [CommentController::class , 'edit_comment'])->middleware('auth:sanctum');
 Route::delete('/delete-comment/{comment}' , [CommentController::class , 'delete_comment'])->middleware('auth:sanctum');
+Route::get('/post/{post}/comments' , [CommentController::class , 'get_comments_of_the_post']);

@@ -24,6 +24,7 @@ class UserController extends Controller
         if(($this->check_phone_number($validated['phone_number']))){
             $validated['password'] = Hash::make($validated['password']);
             $user = User::create($validated);
+
             return response()->json([
                 'message' => 'User Created Successfully!',
                 'user'=> new UserResource($user)
@@ -39,6 +40,7 @@ class UserController extends Controller
         if (Auth::attempt($validated)){
             $user = Auth::user();
             $token = $user->createToken('auth-token')->plainTextToken;
+
             return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
@@ -55,6 +57,7 @@ class UserController extends Controller
         if(request()->has('phone_number')){
             if(($this->check_phone_number($validated['phone_number']))){
                 $user->update($validated);
+
                 return response()->json([
                     'message' => 'updated successfully' ,
                     'user' => new UserResource($user)
@@ -64,6 +67,7 @@ class UserController extends Controller
             }
         }else{
             $user->update($validated);
+
             return response()->json([
                 'message' => 'updated successfully' ,
                 'user' => new UserResource($user)
@@ -71,6 +75,7 @@ class UserController extends Controller
         }
     }
 
+    // See User Profile function
     public function profile_user(User $user){
         $posts = $user->posts;
         $counts_of_posts = $user->posts()->count();
@@ -80,6 +85,7 @@ class UserController extends Controller
         $following = $user->follows;
         $counts_of_comments = $user->comments()->count();
         $comments = $user->commets;
+
         return response()->json([
             'user' => $user ,
             'total_posts' => $counts_of_posts,
@@ -93,8 +99,10 @@ class UserController extends Controller
         ]);
     }
 
+    // Logout Function 
     public function logout(Request $request){
-            $request->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete();
+
         return response()->json([
             'message' => 'successfully logged out!'
         ]);
@@ -102,14 +110,18 @@ class UserController extends Controller
 
 
 
+    // Update User Password
     public function update_password(UserUpdatePasswordRequest $userUpdatePasswordRequest , User $user){
         $validated = $userUpdatePasswordRequest->validated();
         $user->update($validated);
+
         return response()->json([
             'message' => 'Updated Password Successfully' ,
             'user' => new UserResource($user)
         ]);
     }
+
+    // function that check if phone number is valid or not!
     function check_phone_number($phoneNumber) {
         // Regular expression for Iranian mobile numbers
         $pattern = '/^09[0-9]{9}$/';
