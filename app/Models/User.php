@@ -57,17 +57,26 @@ class User extends Authenticatable
     }
 
     public function posts():HasMany{
+
         return $this->hasMany(Post::class , 'user_id');
     }
     public function follows(): BelongsToMany{
+
         return $this->belongsToMany(User::class, 'follows', 'user_id', 'user_followed_id');
     }
 
     public function followers(): BelongsToMany{
+
         return $this->belongsToMany(User::class, 'follows', 'user_followed_id', 'user_id');
     }
     
     public function comments():HasMany{
+
         return $this->hasMany(Comment::class , 'user_id');
+    }
+    
+    public function chatrooms():HasMany{
+        
+        return $this->hasMany(Chatroom::class , 'user_id');
     }
 }
