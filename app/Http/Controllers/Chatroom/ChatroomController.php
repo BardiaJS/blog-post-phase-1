@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Chatroom;
 use App\Models\User;
 use App\Models\Chatroom;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Message\MessageController;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Chatroom\CreateChatroomRequest;
 use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Message\MessageController;
+use App\Http\Requests\Message\CreateMessageRequest;
+use App\Http\Requests\Chatroom\CreateChatroomRequest;
 
 class ChatroomController extends Controller
 {
@@ -45,7 +46,7 @@ class ChatroomController extends Controller
     public function add_member_to_pulbic_chatroom(User $user , Chatroom $chatroom){
         if(! $chatroom->messages()->messageWithReceiverId($user->id)->get()){
             $user_id = $user->id;
-            
+
         }
         
     }
