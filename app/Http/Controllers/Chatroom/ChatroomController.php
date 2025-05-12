@@ -6,29 +6,35 @@ use App\Models\User;
 use App\Models\Chatroom;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Message\MessageController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Chatroom\CreateChatroomRequest;
+use Illuminate\Support\Facades\App;
 
 class ChatroomController extends Controller
 {
-    public function create_private_chatroom( User $user){
-        if(Auth::user()->chatrooms()->receiver_id != $user->id){
+    public function create_private_chatroom( User $user , CreateMessageRequest $createMessageRequest){
+        if(Auth::user()->chatrooms()->messages()->receiver_id != $user->id){
             $validated ['is_private'] = 1;
-            $validated['receiver_id'] = $user->id;
-            Chatroom::create($validated);
-
+            $chatroom = Chatroom::create($validated);
+            $message_controller = App::make(MessageController::class);
+            $message = $message_controller->create_message($user , $chatroom , $createMessageRequest);
+            
             return response()->json([
-                'chatroom created successfully!'
+                'chatroom created and message sent successfully!' ,
+                'message' => $message
             ]);
         }else{
-
-            return redirect('/api/show-chat');
+            $messages = Auth::user()->chatrooms()->messages()->MessageWithReceiverId($user->id)->get();
+            
+            return response()->json([
+                'messages' => $messages
+            ]);
         }
-
     }
 
     public function create_public_chatroom(){
-            $validated ['is_private'] = 1;
+            $validated ['is_private'] = 0;
             Chatroom::create($validated);
 
             return response()->json([
@@ -36,7 +42,11 @@ class ChatroomController extends Controller
             ]);
     }
     
-    public function add_member_to_pulbic_chatroom(Chatroom $chatroom){
+    public function add_member_to_pulbic_chatroom(User $user , Chatroom $chatroom){
+        if(! $chatroom->messages()->messageWithReceiverId($user->id)->get()){
+            $user_id = $user->id;
+            
+        }
         
     }
 

@@ -12,6 +12,9 @@ class Chatroom extends Model
     //
     protected $fillable = [
         'user_id',
+        'name',
+        'receiver_id',
+        'is_private'
     ];
 
     public function user():BelongsTo{
