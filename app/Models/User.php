@@ -79,4 +79,7 @@ class User extends Authenticatable
         return $this->hasMany(Member::class , 'user_id');
     }
 
+    public function privateMessges():HasMany{
+        return $this->hasMany(PrivateMessage::class , 'user_id');
+    }
 }

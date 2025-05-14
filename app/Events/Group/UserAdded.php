@@ -18,9 +18,11 @@ class UserAdded
      * Create a new event instance.
      */
     public $group;
-    public function __construct($group)
+    public $newMember;
+    public function __construct($group , $newMember)
     {
         $this->group = $group;
+        $this->newMember = $newMember;
     }
 
     /**
@@ -31,7 +33,7 @@ class UserAdded
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('AddUser'.$this->group->id),
+            new PrivateChannel('group'.$this->group->id),
         ];
     }
 }

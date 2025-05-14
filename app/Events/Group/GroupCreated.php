@@ -31,7 +31,7 @@ class GroupCreated
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('CreateGroup'.$this->group->owner_id),
+            new PrivateChannel('group-creation'.$this->group->owner_id),
         ];
     }
 }

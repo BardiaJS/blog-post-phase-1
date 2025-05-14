@@ -2,22 +2,20 @@
 use App\Models\Group;
 use Illuminate\Support\Facades\Broadcast;
 
+// group
 Broadcast::channel('CreateGroup.{ownerId}', function ($user , $owner_id) {
+
     return $user->id == $owner_id;
 });
+Broadcast::channel('group.{groupId}', function ($user , $groupId) {
+    $group = Group::find($groupId);
 
-Broadcast::channel('DeleteGroup.{groupId}', function ($user , $groupId) {
-    $group = Group::find($groupId); // دریافت گروه بدون Query‌های اضافی
-    return $group->members->contains('user_id', $user->id);
-
-});
-
-Broadcast::channel('UpdateGroup.{groupId}', function ($user , $groupId) {
-    $group = Group::find($groupId); // دریافت گروه بدون Query‌های اضافی
     return $group->members->contains('user_id', $user->id);
 });
 
-Broadcast::channel('AddUser.{groupId}', function ($user , $groupId) {
-    $group = Group::find($groupId); // دریافت گروه بدون Query‌های اضافی
-    return $group->members->contains('user_id', $user->id);
+
+// private message
+Broadcast::channel('chat.{messageId}', function ($user , $message) {
+    
+    return $user->id == $message->user_id || $user->id == $message->receiver_id;
 });

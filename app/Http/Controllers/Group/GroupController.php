@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Events\Group\GroupCreated;
 use App\Events\Group\GroupDeleted;
 use App\Events\Group\GroupUpdated;
+use App\Events\Group\UserAdded;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Bus\UpdatedBatchJobCounts;
@@ -30,7 +31,7 @@ class GroupController extends Controller
     }
 
     public function delete_group(Group $group){
-        broadcast(new GroupDeleted($group));
+        broadcast(new GroupDeleted($group->id));
         $group->delete();
 
         return new GroupResource($group);
@@ -50,7 +51,9 @@ class GroupController extends Controller
             $group_id = $group->id;
             $validated ['group_id'] = $group_id;
             $validated ['user_id'] = $user_id;
+            broadcast(new UserAdded($group , $user));
             Member::create($validated);
+            
         }
     }
 }

@@ -32,7 +32,7 @@ class GroupUpdated
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('UpdateGroup'.$this->group->id),
+            new PrivateChannel('group'.$this->group->id),
         ];
     }
 }
