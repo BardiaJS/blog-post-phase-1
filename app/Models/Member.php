@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Member extends Model
@@ -12,7 +13,7 @@ class Member extends Model
         'user_id',
     ];
 
-    public function groups():HasMany{
-        return $this->hasMany(Group::class);
+    public function groups():BelongsTo{
+        return $this->belongsTo(Group::class);
     }
 }

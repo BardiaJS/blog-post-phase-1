@@ -16,3 +16,8 @@ Broadcast::channel('UpdateGroup.{groupId}', function ($user , $groupId) {
     $group = Group::find($groupId); // دریافت گروه بدون Query‌های اضافی
     return $group->members->contains('user_id', $user->id);
 });
+
+Broadcast::channel('AddUser.{groupId}', function ($user , $groupId) {
+    $group = Group::find($groupId); // دریافت گروه بدون Query‌های اضافی
+    return $group->members->contains('user_id', $user->id);
+});

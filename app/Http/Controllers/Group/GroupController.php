@@ -51,7 +51,6 @@ class GroupController extends Controller
             $validated ['group_id'] = $group_id;
             $validated ['user_id'] = $user_id;
             Member::create($validated);
-            
         }
     }
 }
