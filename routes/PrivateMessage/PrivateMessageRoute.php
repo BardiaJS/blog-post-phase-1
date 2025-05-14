@@ -12,4 +12,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/send-private-message/to/user/{user}' , [PrivateMessageController::class , 'send_private_message'])->middleware('auth:sanctum');
 Route::patch('/update-private-message/{privateMessage}' , [PrivateMessageController::class , 'edit_private_message'])->middleware('auth:sanctum');
-Route::delete('/delete-private-message/{privateMessage}' , [PrivateMessageController::class , 'delete_private_message']);
+Route::delete('/delete-private-message/{privateMessage}' , [PrivateMessageController::class , 'delete_private_message'])->middleware('auth:sanctum');

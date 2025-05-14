@@ -3,7 +3,7 @@ use App\Models\Group;
 use Illuminate\Support\Facades\Broadcast;
 
 // group
-Broadcast::channel('CreateGroup.{ownerId}', function ($user , $owner_id) {
+Broadcast::channel('group-creation.{ownerId}', function ($user , $owner_id) {
 
     return $user->id == $owner_id;
 });
@@ -15,7 +15,12 @@ Broadcast::channel('group.{groupId}', function ($user , $groupId) {
 
 
 // private message
-Broadcast::channel('chat.{messageId}', function ($user , $message) {
-    
+Broadcast::channel('private-chat.{messageId}', function ($user , $message) {
     return $user->id == $message->user_id || $user->id == $message->receiver_id;
 });
+
+// group message
+Broadcast::channel('group-chat.{groupId}', function ($user, $groupId) {
+    return $user->groups->contains($groupId);
+});
+

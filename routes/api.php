@@ -12,3 +12,4 @@ require base_path('routes/Comment/CommentRoute.php');
 require base_path('routes/Member/MemberRoute.php');
 require base_path('routes/Group/GroupRoute.php');
 require base_path('routes/PrivateMessage/PrivateMessageRoute.php');
+require base_path('routes/GroupMessage/GroupMessageRoute.php');

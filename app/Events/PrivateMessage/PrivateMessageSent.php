@@ -32,7 +32,7 @@ class PrivateMessageSent
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('chat'.$this->message->id),
+            new PrivateChannel('private-chat'.$this->message->id),
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\PrivateMessage;
+namespace App\Events\GroupMessage;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PrivateMessageDeleted
+class GroupMessageSent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,7 +31,7 @@ class PrivateMessageDeleted
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('private-chat'.$this->message->id),
+            new PrivateChannel('group-chat'.$this->message->group_id),
         ];
     }
 }
