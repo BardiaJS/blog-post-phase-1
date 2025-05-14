@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Message;
+namespace App\Http\Resources\Group;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MessageResource extends JsonResource
+class GroupResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,9 @@ class MessageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id ,
+            'name' => $this->name
+        ];
     }
 }

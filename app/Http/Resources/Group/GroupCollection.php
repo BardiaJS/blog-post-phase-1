@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Message;
+namespace App\Http\Resources\Group;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class MessageCollection extends ResourceCollection
+class GroupCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

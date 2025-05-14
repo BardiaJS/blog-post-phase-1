@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Group;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -10,19 +10,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent
+class GroupCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-
-
-    public $message;
-    public function __construct($message)
+    public $group;
+    public function __construct($group)
     {
-        $this->message = $message;
+        $this->group = $group;
     }
 
     /**
@@ -33,7 +31,7 @@ class MessageSent
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('privateChat'.$this->message->receiver_id),
+            new PrivateChannel('CreateGroup'.$this->group->owner_id),
         ];
     }
 }

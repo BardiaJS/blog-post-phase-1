@@ -75,8 +75,8 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class , 'user_id');
     }
     
-    public function chatrooms():HasMany{
-        
-        return $this->hasMany(Chatroom::class , 'user_id');
+    public function members():HasMany{
+        return $this->hasMany(Member::class , 'user_id');
     }
+
 }
