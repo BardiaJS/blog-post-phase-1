@@ -26,14 +26,14 @@ class FollowController extends Controller
         return response()->json(['message' => 'Unfollowed successfully']);
     }
 
-    public function get_followers_list(){
-        $followers_list = Auth::user()->followers;
+    public function get_followers_list(User $user){
+        $followers_list = $user->followers;
         return response()->json([
             'Follwers List' => new UserCollection($followers_list)
         ]);
     }
-    public function get_following_list(){
-        $following_list = Auth::user()->follows;
+    public function get_following_list(User $user){
+        $following_list =$user->follows;
         return response()->json([
             'Following List' => new UserCollection($following_list)
         ]);

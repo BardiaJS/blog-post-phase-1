@@ -24,6 +24,8 @@ class GroupController extends Controller
         $validated = $createGroupRequest->validated();
         $validated['owner_id'] = Auth::user()->id;
         $group = Group::create($validated);
+        
+        
         broadcast(new GroupCreated($group));
 
 

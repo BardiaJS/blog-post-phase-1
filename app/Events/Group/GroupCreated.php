@@ -34,4 +34,9 @@ class GroupCreated
             new PrivateChannel('group-creation'.$this->group->owner_id),
         ];
     }
+
+    public function broadcastAs(): string{
+        return 'group.created';
+    }
+
 }

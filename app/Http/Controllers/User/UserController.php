@@ -72,6 +72,7 @@ class UserController extends Controller
     }
 
     public function profile_user(User $user){
+
         $posts = $user->posts;
         $counts_of_posts = $user->posts()->count();
         $counts_of_followers = $user->followers()->count();
@@ -79,7 +80,7 @@ class UserController extends Controller
         $counts_of_following = $user->follows()->count();
         $following = $user->follows;
         $counts_of_comments = $user->comments()->count();
-        $comments = $user->commets;
+        $comments = $user->comments;
         return response()->json([
             'user' => $user ,
             'total_posts' => $counts_of_posts,
@@ -87,7 +88,7 @@ class UserController extends Controller
             'total_followers' => $counts_of_followers,
             'followers' => new FollowCollection($followers),
             'total_following' => $counts_of_following,
-            'followin' =>  new FollowCollection($following),
+            'following' =>  new FollowCollection($following),
             'total_comments' => $counts_of_comments,
             'comments' => new CommentCollection($comments)
         ]);

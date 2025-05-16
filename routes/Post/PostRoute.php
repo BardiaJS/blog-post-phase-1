@@ -9,4 +9,4 @@ Route::patch('/update-post/{post}' , [PostController::class , 'update_post'])->m
 Route::get('/all-posts' , [PostController::class , 'get_all_posts']);
 Route::get('/single-post/{post}' , [PostController::class , 'get_single_post']);
 Route::delete('/delete-post/{post}' , [PostController::class , 'delete_post'])->middleware('auth:sanctum');
-Route::get('/post/{post}/commetns' , [PostController::class , 'get_comments_of_post'])->middleware('auth:sanctum');
+Route::get('/post/{post}/comments' , [PostController::class , 'get_comments_of_post'])->middleware('auth:sanctum');
