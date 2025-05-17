@@ -2,11 +2,7 @@
 use App\Models\Group;
 use Illuminate\Support\Facades\Broadcast;
 
-// group
-Broadcast::channel('group-creation{ownerId}', function ($user , $owner_id) {
 
-    return (int) $user->id === (int) $owner_id;
-});
 Broadcast::channel('group{groupId}', function ($user , $groupId) {
     $group = Group::find($groupId);
     return $group->members->contains('user_id', $user->id);

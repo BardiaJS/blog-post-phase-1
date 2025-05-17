@@ -2,13 +2,14 @@
 
 namespace App\Events\Group;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class GroupCreated
 {
@@ -20,7 +21,7 @@ class GroupCreated
     public $group;
     public function __construct($group)
     {
-        $this->group = $group;
+        $this->group= $group;
     }
 
     /**
@@ -32,6 +33,12 @@ class GroupCreated
     {
         return [
             new PrivateChannel('group-creation'.$this->group->owner_id),
+        ];
+    }
+
+    public function broadcastWith():array{
+        return [
+            'group' => $this->group
         ];
     }
 

@@ -35,4 +35,13 @@ class GroupUpdated
             new PrivateChannel('group'.$this->group->id),
         ];
     }
+
+    public function broadcastWith():array{
+        return [
+            'group' => $this->group
+        ];
+    }
+    public function broadcastAs(): string{
+        return 'group.updated';
+    }
 }

@@ -25,16 +25,13 @@ class GroupController extends Controller
         $validated['owner_id'] = Auth::user()->id;
         $group = Group::create($validated);
         
-        
-        broadcast(new GroupCreated($group));
-
-
         return new GroupResource($group);
     }
 
     public function delete_group(Group $group){
         broadcast(new GroupDeleted($group->id));
         $group->delete();
+        event(new GroupCreated($group));
 
         return new GroupResource($group);
     }
